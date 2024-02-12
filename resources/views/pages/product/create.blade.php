@@ -46,6 +46,7 @@
                                     </div>
                                 @enderror
                             </div>
+
                             <div class="form-group">
                                 <label>Price</label>
                                 <input type="number"
@@ -59,6 +60,7 @@
                                     </div>
                                 @enderror
                             </div>
+                            
                             <div class="form-group">
                                 <label>Stock</label>
                                 <input type="number"

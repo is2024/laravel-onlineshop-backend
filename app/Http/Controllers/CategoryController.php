@@ -18,9 +18,6 @@ class CategoryController extends Controller
         ->orderBy('created_at', 'desc')
         ->paginate(5);
         return view('pages.category.index', compact('categories'));
-
-    
-
     }
 
     //create
@@ -32,27 +29,50 @@ class CategoryController extends Controller
     //store
     public function store(Request $request)
     {
-       $validated= $request->validate([
+        $request->validate([
             'name' => 'required|max:100',
+            'description' => 'required',
+            'image' => 'required|image|mimes:png,jpg,jpeg'
         ]);
+        $filename = time() . '.' . $request->image->extension();
+        $request->image->storeAs('public/categories', $filename);
+        $data = $request->all();
 
-        $category = \App\Models\Category::create($validated);
+        $categories = new \App\Models\Category;
+        $categories->name = $request->name;
+        $categories->description = $request->description;
+        $categories->image = $filename;
+        $categories->save();
         return redirect()->route('category.index')->with('success', 'Category successfully created');
     }
+
     //edit
     public function edit($id)
     {
-        $category = \App\Models\Category::findOrFail($id);
-        return view('pages.category.edit', compact('category'));
+        $categories = \App\Models\Category::findOrFail($id);
+        return view('pages.category.edit', compact('categories'));
     }
+
+
     //update
     public function update(Request $request, $id)
     {
-        $validated= $request->validate([
-            'name' => 'required|max:100',
+        $categories = \App\Models\Category::findOrFail($id);
+	    $filename=$categories->image;
+        // check image
+       if ($request->hasFile('image')) {
+           $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/categories', $filename);
+            $categories['image'] = $filename;
+       }
+
+        $categories->update ([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $filename,
+
         ]);
-        $category = \App\Models\Category::findOrFail($id);
-        $category->update($validated);
+
         return redirect()->route('category.index')->with('success', 'Category successfully updated');
     }
 
@@ -64,3 +84,4 @@ class CategoryController extends Controller
         return redirect()->route('category.index')->with('success', 'Category successfully deleted');
     }
 }
+

@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title', 'Categories')
@@ -26,7 +27,7 @@
                     <div class="col-12">
                         @include('layouts.alert')
                     </div>
-                </div> 
+                </div>
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card">
@@ -51,7 +52,8 @@
                                         <tr>
 
                                             <th>Name</th>
-
+                                            <th>Deskription</th>
+                                            <th>Photo</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -60,7 +62,15 @@
 
                                                 <td>{{ $category->name }}
                                                 </td>
-
+                                                <td>{{ $category->description }}</td>
+                                                <td>
+                                                    @if ($category->image)
+                                                        <img src="{{ asset('storage/categories/'.$category->image) }}" alt=""
+                                                            width="100px" class="img-thumbnail">
+                                                            @else
+                                                            <span class="badge badge-danger">No Image</span>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $category->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
