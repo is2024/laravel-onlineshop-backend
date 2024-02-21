@@ -21,7 +21,7 @@
                     <input id="email" type="email"
                         class="form-control @error('email')
                         is-invalid
-                    @enderror"
+                        @enderror"
                         name="email" tabindex="1" autofocus>
                     @error('email')
                         <div class="invalid-feedback">

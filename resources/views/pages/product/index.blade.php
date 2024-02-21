@@ -63,7 +63,7 @@
 
                                                 <td>{{ $product->name }}
                                                 </td>
-                                                <td>{{ $product->category_id}}
+                                                <td>{{ $product->category_name }}
                                                 </td>
                                                 <td>{{ $product->price }}
                                                 </td>

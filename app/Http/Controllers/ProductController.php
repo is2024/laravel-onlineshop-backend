@@ -12,11 +12,12 @@ class ProductController extends Controller
     {
      //get data products
         $products = DB::table('products')
-            ->when($request->input('name'), function ($query, $name) {
-                return $query->where('name', 'like', '%' . $name . '%');
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+
+        ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+        ->select('products.*', 'categories.name as category_name', )
+
+        ->orderBy('products.created_at', 'desc')
+        ->paginate(10);
 
             //sort by created_at desc
             return view('pages.product.index', compact('products'));
