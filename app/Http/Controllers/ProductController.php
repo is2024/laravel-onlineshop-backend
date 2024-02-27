@@ -8,23 +8,26 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     //index
-    public function index(Request $request)
-    {
-     //get data products
-        $products = DB::table('products')
+    // public function index(Request $request)
+    // {
+    //  //get data products
+    //     $products = DB::table('products')
+    //     ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+    //     ->select('products.*', 'categories.name as category_name' );
 
+    //         return view('pages.product.index', compact('products'));
+    // }
+    public function index(Request $request){
+        $products=  DB::table('products')
         ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'categories.name as category_name', )
-
+        ->select('products.*', 'categories.name as category_name' )
         ->when($request->input('name'), function ($query, $name) {
             return $query->where('products.name', 'like', '%' . $name . '%');
         })
-
-
         ->orderBy('products.created_at', 'desc')
         ->paginate(10);
-            //sort by created_at desc
-            return view('pages.product.index', compact('products'));
+        return view('pages.product.index', compact('products'));
+
     }
     //create
     public function create(Request $request)
